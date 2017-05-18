@@ -5,7 +5,8 @@
 import { assert } from 'chai';
 import React from 'react';
 import FixedDataTable from './FixedDataTableRoot';
-import { createRenderer, isElement, renderIntoDocument, findRenderedComponentWithType } from 'react-addons-test-utils';
+import ReactShallowRenderer from 'react-test-renderer/shallow';
+import ReactTestUtils from 'react-dom/test-utils';
 
 const { Table, Column } = FixedDataTable;
 
@@ -20,16 +21,16 @@ describe('FixedDataTableRoot', function() {
           rowHeight={100}
           headerHeight={50}
         >
-          <Column 
+          <Column
             width={300}
           />
         </Table>
       );
-      let renderer = createRenderer();
+      let renderer = new ReactShallowRenderer();
       renderer.render(table);
       let tableRender = renderer.getRenderOutput();
 
-      assert.isTrue(isElement(tableRender));
+      assert.isTrue(ReactTestUtils.isElement(tableRender));
     });
   });
 
@@ -48,7 +49,7 @@ describe('FixedDataTableRoot', function() {
     getTableState() {
       return this.refs['table'].state;
     }
-    
+
     render() {
       return (
         <Table
@@ -71,8 +72,8 @@ describe('FixedDataTableRoot', function() {
   }
 
   const renderTable = (optionalProps = {}) => {
-    let renderedTree = renderIntoDocument(<TestTable {...optionalProps} />);
-    return findRenderedComponentWithType(renderedTree, TestTable);
+    let renderedTree = ReactTestUtils.renderIntoDocument(<TestTable {...optionalProps} />);
+    return ReactTestUtils.findRenderedComponentWithType(renderedTree, TestTable);
   };
 
   describe('initial render', function() {
