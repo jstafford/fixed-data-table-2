@@ -160,9 +160,9 @@ var FixedDataTable = createReactClass({
     onHorizontalScroll: PropTypes.func,
 
     /**
-     * Callback when vertically scrolling the grid.
-     *
-     * Return false to stop propagation.
+     * Optional callback when vertically scrolling the grid. If specified,
+     * `onVerticalScroll( scrollY: number, firstRowIndex: number ): bool`
+     * is called for each scroll event. Return false to stop propagation.
      */
     onVerticalScroll: PropTypes.func,
 
@@ -1164,7 +1164,7 @@ var FixedDataTable = createReactClass({
         this.props.overflowY !== 'hidden') {
       var scrollState = this._scrollHelper.scrollBy(Math.round(deltaY));
       var onVerticalScroll = this.props.onVerticalScroll;
-      if (onVerticalScroll ? onVerticalScroll(scrollState.position) : true) {
+      if (onVerticalScroll ? onVerticalScroll(scrollState.position, scrollState.index ) : true) {
         var maxScrollY = Math.max(
           0,
           scrollState.contentHeight - this.state.bodyHeight
